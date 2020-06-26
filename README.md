@@ -27,15 +27,7 @@ We suggest to build a product that is able to predict emission results (passing 
 
 
 ## Installation
-
-
-```bash
-pip install foobar
-```
-
-## Usage
-
-Baseline_model and data_prep are contributions by [Marielle Dado](https://github.com/marielledado).
+The basic setup, such as requirements, baseline_model and data_prep are contributions by [Marielle Dado](https://github.com/marielledado).
 
 1. Clone or download this repo
 
@@ -60,6 +52,13 @@ Baseline_model and data_prep are contributions by [Marielle Dado](https://github
 ```python
 pip install -r requirements.txt
 ```
+
+## EDA 
+The Exploratory Data Analysis was performed in Google Colab. 
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/googlecolab/colabtools/blob/master/notebooks/colab-github-demo.ipynb)
+
+Code is accessible via Github, but requires a Google Colab registration. 
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
