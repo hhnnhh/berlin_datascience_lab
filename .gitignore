@@ -129,7 +129,7 @@ dmypy.json
 .pyre/
 
 # Large data
-sample.csv
+#sample.csv
 
 # data folder, can we include the sample here?
 data
