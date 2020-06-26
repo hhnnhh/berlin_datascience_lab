@@ -132,4 +132,4 @@ dmypy.json
 #sample.csv
 
 # data folder, can we include the sample here?
-data
+#data
