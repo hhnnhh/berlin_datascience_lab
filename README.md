@@ -6,6 +6,9 @@ A project initiated and mentored by [Noa Tamir](https://github.com/noatamir) and
 
 A detailed description of the "berlin-ds-lab", data and data cleaning initialisation can be found [here](https://github.com/wimlds/berlin-ds-lab).
 
+Team members were 
+Hannah Bohle, [Marielle Dado](https://github.com/marielledado), [Caitlin Duncan](https://github.com/CaitDunc) and [Isabelle Nguyen](https://github.com/izzbizz/). 
+
 Goal of the project was to create a data science project based on open data, simulating the work of a freelance data science team.
 
 ## Project brief
