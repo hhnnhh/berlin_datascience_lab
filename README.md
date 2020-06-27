@@ -17,9 +17,12 @@ Goal of the project was to create a data science project based on open data, sim
 
 ## Project ideation
 
-We suggest to build a product that is able to predict emission results (passing and failing of car) based
-* on the current results
-* or based on the static car features that are provided (such as model, odometer, car age)
+_Predictive forecasting model:_
+
+We suggest to build a product that is able to predict emission results (passing and failing of car)
+1. based on the static car features that are provided (such as model, odometer, car age)
+1. based on the current results
+
 
 ## Sources:
 
@@ -58,10 +61,29 @@ pip install -r requirements.txt
 
 ## EDA 
 The Exploratory Data Analysis was performed in Google Colab. 
+See "exploration/01_EDA/"
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/googlecolab/colabtools/blob/master/notebooks/colab-github-demo.ipynb)
 
 Code is accessible via Github, but requires a Google Colab registration. 
+
+### Information about the data:
+I performed a sanity check of the data by modeling the results variable ("overall_results"). I expected that it should be possible to reconstruct the variable by using the variables that contribute to the decision process. 
+
+Juypter Notebook: [Sanity Check Model](exploration/01_EDA/sanityCheck_dataQuality_reconstruct_overall-results.ipynb)
+
+The data set contain 127 variables (= total of information provided = 100%). Content can be categorised into different contents:
+
+|  | Total of information provided 127 (= 100%):   | Actually used for result decision  |
+|---|---|---|
+| Information about car and testing procedure (model, odometer.., station)  | 50 (39%)  |  -- |
+| Emissions (HC, CO, CO2, O2) | 45 (35%) | 5 (4%) |
+|On-Board Diagnosis Tools (OBD) | 18 (14%) | (1) 1% |
+|Repair features  | 10 (8%) | --  |
+| Visual Inspection (e.g. smoke)  | 5 (4%)  | 5 (4%)  |
+
+Of the provided data, only a small proportion is actually used for the decision of the emission result (Pass/Fail). 
+## Modeling
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
