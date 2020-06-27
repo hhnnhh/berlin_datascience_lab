@@ -78,11 +78,16 @@ The data set contain 127 variables (= total of information provided = 100%). Con
 |---|---|---|
 | Information about car and testing procedure (model, odometer.., station)  | 50 (39%)  |  -- |
 | Emissions (HC, CO, CO2, O2) | 45 (35%) | 5 (4%) |
-|On-Board Diagnosis Tools (OBD) | 18 (14%) | (1) 1% |
+|On-Board Diagnosis Tools (OBD) | 18 (14%) | 1 (1%) |
 |Repair features  | 10 (8%) | --  |
 | Visual Inspection (e.g. smoke)  | 5 (4%)  | 5 (4%)  |
 
 Of the provided data, only a small proportion is actually used for the decision of the emission result (Pass/Fail). 
+
+In addition to PASS and FAIL, the data set also contains information about ABORTED tests and also rare occurrences of the values "O" and "I" with unknown meaning. 
+
+![Emission results](/figures/results_piechart.png)
+
 ## Modeling
 
 ## Contributing
