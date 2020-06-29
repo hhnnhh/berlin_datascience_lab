@@ -181,15 +181,35 @@ Model 1:
 
 For the last model, we improved the following features: 
  
- SEtting up a pipeline (MD) with
+ Setting up a pipeline (MD) with
    * categorical features were scaled with One-Hot-Encoding
   * continuous features scaled with MinMaxScaler
 * coping with imbalanced target value (~12% FAIL): 
   * for LogReg: class-weight = balanced 
 * keeping only pass/fail results (no aborts or else)
-*
 
-"VEHICLE_TYPE", "FUEL_TYPE", "GVW_TYPE", "ODOMETER", "CAR_AGE"
+Interestingly, a LogReg with the following features: 
+* [categorical:] "VEHICLE_TYPE", "FUEL_TYPE", "GVW_TYPE", 
+* [continuous:] "ODOMETER", "CAR_AGE"
+
+receives about the same ROC SCORE as a LogReg with * "ODOMETER", "CAR_AGE" only 
+
+Preliminary result: ROC = .71
+
+### Beating the baseline with feature selection 
+
+To improve the [extended model](exploration/03_extended_model/improved_baseline_model_extended_HB.ipynb) by Hannah Bohle, I used feature selection.
+
+* substituting "vehicle type" by "model" --> + Roc .73
+* plus "engine_size" --> + Roc .74
+* "VEHICLE_TYPE", "FUEL_TYPE", "GVW_TYPE" 
+
+Summary: A Logistic Regression with "ODOMETER", "CAR_AGE", "MODEL" "ENGINE-Size" receives the best ROC SCORE with .74 
+
+
+
+
+
 
 
 
