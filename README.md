@@ -125,7 +125,12 @@ Problems we determine from the EDA and point out to the client are:
 3. ODOMETER: Some mechanics in certain checking stations enter strange values such as 888.888, 88.888. and 8.888 into the odometer variable, also odometer values of 0, exactly 100.000 and above 400.000 miles seem odd. These values are treated as outliers and are removed. 
 4. REPEATED CHECKS: In the data set (with more than 370.000 cars entered), several thousand cars are checked more than once a day. As repairs within a day are rather unlikely, the data of these cars are considered as suspicious. 
 
-Digging deeper into the scatterplot of 'E_IDLE_CO2' and 'E_HIGH_CO2', removing outlier, to be able to see their true distribution. 
+Information about the biased [stations and software](exploration/01_EDA/EDA_important_car_features_biased_stations_software_HB.ipynb), as well as engine size, model, cylinder, trans type and dual exhaust. 
+
+With [scatterplots](exploration/01_EDA/EDA_emissions_scatterplot_HB.ipynb) I've been digging deeper into 'E_IDLE_CO2' and 'E_HIGH_CO2', and by removing outlier, I was able to see their distribution. 
+
+[Correlations](exploration/01_EDA/EDA_correlations_HB.ipynb) were used to explore the linear connections between car feature and result variable. 
+
 
 ## Baseline Model
 
