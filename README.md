@@ -125,6 +125,10 @@ Problems we determine from the EDA and point out to the client are:
 3. ODOMETER: Some mechanics in certain checking stations enter strange values such as 888.888, 88.888. and 8.888 into the odometer variable, also odometer values of 0, exactly 100.000 and above 400.000 miles seem odd. These values are treated as outliers and are removed. 
 4. REPEATED CHECKS: In the data set (with more than 370.000 cars entered), several thousand cars are checked more than once a day. As repairs within a day are rather unlikely, the data of these cars are considered as suspicious. 
 
+![Biased stations](/figures/station_num.png)
+
+![Biased software](/figures/software.png)
+
 Information about the biased [stations and software](exploration/01_EDA/EDA_important_car_features_biased_stations_software_HB.ipynb), as well as engine size, model, cylinder, trans type and dual exhaust. 
 
 With [scatterplots](exploration/01_EDA/EDA_emissions_scatterplot_HB.ipynb) I've been digging deeper into 'E_IDLE_CO2' and 'E_HIGH_CO2', and by removing outlier, I was able to see their distribution. 
@@ -173,6 +177,9 @@ Now the ROC SCORE for the LogReg increases to .66, for the SVM to .65.
 
 Model 1: 
 "Modeling emission results based on static car features"
+
+"VEHICLE_TYPE", "FUEL_TYPE", "GVW_TYPE", "ODOMETER", "CAR_AGE"
+
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
