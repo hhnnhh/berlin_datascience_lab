@@ -179,7 +179,18 @@ Now the ROC SCORE for the LogReg increases to .66, for the SVM to .65.
 Model 1: 
 "Modeling emission results based on static car features"
 
+For the last model, we improved the following features: 
+ 
+ SEtting up a pipeline (MD) with
+   * categorical features were scaled with One-Hot-Encoding
+  * continuous features scaled with MinMaxScaler
+* coping with imbalanced target value (~12% FAIL): 
+  * for LogReg: class-weight = balanced 
+* keeping only pass/fail results (no aborts or else)
+*
+
 "VEHICLE_TYPE", "FUEL_TYPE", "GVW_TYPE", "ODOMETER", "CAR_AGE"
+
 
 
 ## Contributing
