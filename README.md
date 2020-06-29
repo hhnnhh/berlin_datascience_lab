@@ -104,25 +104,31 @@ In addition to PASS and FAIL, the data set also contains information about ABORT
 All variables were thoroughly explored before using. 
 
 Problems we determine from the EDA and point out to the client are:
-1. Some stations are biased, i.e. have a higher percentage of passing and failing than the average. 
-2. A software version is biased. 
-3. Some mechanics in certain checking stations enter strange values such as 888.888, 88.888. and 8.888 into the odometer variable, also odometer values of 0, exactly 100.000 and above 400.000 miles seem odd. These values are treated as outliers and are removed. 
-4. In the data set (with more than 370.000 cars entered), several thousand cars are checked more than once a day. As repairs within a day are rather unlikely, the data of these cars are considered as suspicious. 
-
-
-
-
-
-
-
-We considered five car features as crucial. These are 
-
-1. Odometer
-2.  
+1. STATIONS: Some stations are biased, i.e. have a higher percentage of passing and failing than the average. 
+2. SOFTWARE: A software version is biased. 
+3. ODOMETER: Some mechanics in certain checking stations enter strange values such as 888.888, 88.888. and 8.888 into the odometer variable, also odometer values of 0, exactly 100.000 and above 400.000 miles seem odd. These values are treated as outliers and are removed. 
+4. REPEATED CHECKS: In the data set (with more than 370.000 cars entered), several thousand cars are checked more than once a day. As repairs within a day are rather unlikely, the data of these cars are considered as suspicious. 
 
 ## Baseline Model
 
-The baseline model was based on a selection of five car features that we expected to explain test results without actually touching the tests.
+The [baseline model](exploration/02_baseline_model/vanilla_baseline_4_static_car_features.ipynb) (colab) was based on a selection of five car features that we expected to explain test results without actually touching the information of the test itself.
+
+After exploring the data we considered these five car features as crucial:
+
+1. ODOMETER
+1. MODEL YEAR - converted to age
+1. VEHICLE TYPE
+1. FUEL TYPE
+1. GVW_TYPE
+
+Even after cleaning the variables, and modeling only passes and fails (leaving aborts out), and after training four different vanilla models (naive bayes, logistic regression, support vector machines and random forest), all models perform extremely bad, with a ROC Score of ~.5, which is equivalent to chance level. 
+
+
+
+
+
+
+
 
 
 
