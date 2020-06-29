@@ -68,11 +68,17 @@ See "exploration/01_EDA/"
 Code is accessible via Github, but requires a Google Colab registration. 
 
 ### Information about the data:
-I performed a sanity check of the data by modeling the results variable ("overall_results"). I expected that it should be possible to reconstruct the variable by using the variables that contribute to the decision process. 
 
 Juypter Notebook: [Sanity Check Model](exploration/01_EDA/sanityCheck_dataQuality_reconstruct_overall-results.ipynb)
 
-The data set contain 127 variables (= total of information provided = 100%). Content can be categorised into different contents:
+I performed a sanity check of the data by modeling the results variable ("overall_results") using the testing variables with a Logistic Regression. 
+
+**Goal:** If the data is clean and of high quality, it should be possible to reconstruct the overall results (pass/fail of emission test) with the testing variables that are used for the decision.
+
+**Result of the sanity check:** Of the data set, only about 5% of the variables are used for the decision process. Nevertheless, after finding the important variables, the test results can completely be reconstructed, which speaks to a high data quality. 
+However, most of the variables are neither need for the decision process nor used during the test results, as a large percentage of the variables contain mostly NaN. 
+
+**Overview over the variables:** The data set contain 127 variables (= total of information provided = 100%). Content can be subdivided into different categories:
 
 |  | Total of information provided 127 (= 100%):   | Actually used for result decision  |
 |---|---|---|
