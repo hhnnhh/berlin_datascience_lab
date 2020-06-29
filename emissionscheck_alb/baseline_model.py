@@ -1,3 +1,5 @@
+#basic setup of Pipeline, LogReg and Metrices by Marielle Dado
+#extensions (SVC, Random Forest Classifier, RFE, and adding hyperparameters) by Hannah Bohle
 import pandas as pd
 import numpy as np
 from sklearn.pipeline import make_pipeline

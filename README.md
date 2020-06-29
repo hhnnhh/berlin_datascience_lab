@@ -1,13 +1,26 @@
 # ABQ vehicle emissions reduction
 
+### Content:
+1. Project Introduction
+1. Project Brief
+1. Project Ideation
+1. Exploratory Data Analysis
+   1. Reverse Modeling of Test Result
+1. Baseline Model
+   1. improved Baseline Model
+1. Extended Model
+
+
+
+
 ## Project introduction
 
-A project initiated and mentored by [Noa Tamir](https://github.com/noatamir) and [Katharina Rasch](https://github.com/krasch), hosted by [Women in Machine Learning and Data Scienc (WIMLDS)](https://github.com/wimlds/).
+A project initiated and mentored by [Noa Tamir](https://github.com/noatamir) and [Katharina Rasch](https://github.com/krasch), hosted by [Women in Machine Learning and Data Science (WIMLDS)](https://github.com/wimlds/).
 
-A detailed description of the "berlin-ds-lab", as well as the original data and a notebook for data cleaning  can be found [here](https://github.com/wimlds/berlin-ds-lab). Data cleaning will result in the supsample "sample.csv" which was used in this project. 
+A detailed description of the "berlin-ds-lab", as well as the original data and a notebook for data cleaning  can be found [here](https://github.com/wimlds/berlin-ds-lab). Data cleaning will result in the subsample "sample.csv" which was used in this project. 
 
 Team members were 
-Hannah Bohle, [Marielle Dado](https://github.com/marielledado), [Caitlin Duncan](https://github.com/CaitDunc) and [Isabelle Nguyen](https://github.com/izzbizz/). 
+Hannah Bohle (HB), [Marielle Dado](https://github.com/marielledado) (MD), [Caitlin Duncan](https://github.com/CaitDunc) (CD) and [Isabelle Nguyen](https://github.com/izzbizz/) (IN). Authorship of notebooks is marked with initials. 
 
 **Goal of the project** was to create a data science project based on open data, simulating the work of a freelance data science team.
 
@@ -20,9 +33,12 @@ Hannah Bohle, [Marielle Dado](https://github.com/marielledado), [Caitlin Duncan]
 _Predictive forecasting model:_
 
 We suggest the client a product that is able to predict emission results (passing and failing of car)
-1. [MODEL 1] based on the static car features that are provided (such as model, odometer, car age), so that car owners know if their car is going to fail before going to the testing station
-1. [MODEL 2] based on the current results, so that the car owner can be informed about the likelihood of failing in a future test after having their car checked. 
 
+[MODEL 1] (current)
+1. based on the static car features that are provided (such as model, odometer, car age), so that car owners know if their car is going to fail before going to the testing station
+
+[MODEL 2] (future, not implemented within project timeframe)
+1. based on the current results, so that the car owner can be informed about the likelihood of failing in a future test after having their car checked. 
 
 ## Sources:
 
@@ -30,10 +46,8 @@ We suggest the client a product that is able to predict emission results (passin
 * [Data cleaning (Jupyter Notebook)](https://github.com/wimlds/berlin-ds-lab/blob/master/projects/cars/cars_cleanup_and_sample.ipynb)
 
 
-
-
 ## Installation
-The basic setup, such as requirements, baseline_model and data_prep are contributions by [Marielle Dado](https://github.com/marielledado).
+The basic setup such as requirements.txt, baseline_model.py for Logistic Regression and data_prep are contributions by [Marielle Dado](https://github.com/marielledado), extensions for Support Vector Machine, Random Forest Classifier, hyperparameter tuning by Hannah Bohle.
 
 1. Clone or download this repo
 
@@ -41,7 +55,7 @@ The basic setup, such as requirements, baseline_model and data_prep are contribu
 
 2. Change working directory to root folder of the project
 
-`cd ds-lab`
+`cd berlin_datascience_lab`
 
 3. Make sure you have Anaconda/`conda` installed. Verify using the command `conda --version`.
 
@@ -56,7 +70,7 @@ The basic setup, such as requirements, baseline_model and data_prep are contribu
 6. Install `requirements.txt`
 
 ```python
-pip install -r requirements.txt
+conda install -r requirements.txt
 ```
 
 ## Exploratory Data Analysis
@@ -67,16 +81,18 @@ All notebooks can be found under "exploration/01_EDA/"
 
 All notebooks are accessible via Github, however, Colab Notebooks will require a Google Colab registration. 
 
-### Information about the data:
+### Reverse modeling of test result
 
-Juypter Notebook: [Sanity Check Model](exploration/01_EDA/sanityCheck_dataQuality_reconstruct_overall-results.ipynb)
+[Sanity Check Model](exploration/01_EDA/sanityCheck_dataQuality_reconstruct_overall-results.ipynb) (Jupyter Notebook) by Hannah Bohle
 
-I performed a sanity check of the data by modeling the results variable ("overall_results") with the testing variables, using a Logistic Regression. 
+Attention: *This section does not describe the actual forecasting model but a data quality check.*
+
+I performed a sanity check of the data by reverse modeling the results variable ("overall_results") with the testing variables, using a Logistic Regression. 
 
 **Goal:** If the data is clean and of high quality, it should be possible to reconstruct the overall results (pass/fail of emission test) with the testing variables that are used for this decision.
 
-**Result of the sanity check:** Of the data set, only about 5% of the variables are used for the decision process. Nevertheless, after finding the important variables, the test results can completely be reconstructed, which speaks to a high data quality (ROC SCORE = 1). 
-Apparently, most of the variables are neither needed for the decision process or used for the test results nor collected, therefore a large percentage of the variables contain mostly NaN. 
+**Result of the sanity check:** Of the data set, it seems like only about 5% of the variables are used for the decision process. Nevertheless, after finding the important variables, the test results can completely be reconstructed, which speaks to a high data quality (ROC SCORE = 1). 
+It seems like most of the variables are neither needed for the decision process or used for the test results nor are they collected, as a large percentage of the variables contain mostly NaN. 
 
 **Overview over the variables:** The data set contain 127 variables (= total of information provided = 100%). Content can be subdivided into different categories:
 
@@ -109,6 +125,8 @@ Problems we determine from the EDA and point out to the client are:
 3. ODOMETER: Some mechanics in certain checking stations enter strange values such as 888.888, 88.888. and 8.888 into the odometer variable, also odometer values of 0, exactly 100.000 and above 400.000 miles seem odd. These values are treated as outliers and are removed. 
 4. REPEATED CHECKS: In the data set (with more than 370.000 cars entered), several thousand cars are checked more than once a day. As repairs within a day are rather unlikely, the data of these cars are considered as suspicious. 
 
+Digging deeper into the scatterplot of 'E_IDLE_CO2' and 'E_HIGH_CO2', removing outlier, to be able to see their true distribution. 
+
 ## Baseline Model
 
 The [baseline model](exploration/02_baseline_model/vanilla_baseline_4_static_car_features.ipynb) (colab) was based on a selection of five car features that we expected to explain test results without actually touching the information of the test itself.
@@ -128,7 +146,9 @@ Even after cleaning the variables, and modeling only passes and fails (leaving a
 For the [second baseline model](exploration/02_baseline_model/second_baseline_model_cleaned_scaled.ipynb), the following improvements were implemented: 
 * categorical features were scaled with One-Hot-Encoding
 * continuous features scaled with MinMaxScaler
-* class-weight = balanced (because fails are only about 12%) 
+* coping with imbalanced target value (~12% FAIL): 
+  * for LogReg: class-weight = balanced 
+  * for SVM: downsampling of PASS values
 
 Now the ROC SCORE for the LogReg increases to .66, for the SVM to .65.  
 
