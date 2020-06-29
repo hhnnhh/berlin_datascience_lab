@@ -121,7 +121,19 @@ After exploring the data we considered these five car features as crucial:
 1. FUEL TYPE
 1. GVW_TYPE
 
-Even after cleaning the variables, and modeling only passes and fails (leaving aborts out), and after training four different vanilla models (naive bayes, logistic regression, support vector machines and random forest), all models perform extremely bad, with a ROC Score of ~.5, which is equivalent to chance level. 
+Even after cleaning the variables, and modeling only passes and fails (leaving aborts out), and after training four different vanilla models (naive bayes, logistic regression, support vector machines (SVM) and random forest), "out of the box" all models perform extremely bad, with a ROC Score of ~.5, which is equivalent to chance level. 
+
+### extended baseline model
+
+For the [second baseline model](exploration/02_baseline_model/second_baseline_model_cleaned_scaled.ipynb), the following improvements were implemented: 
+* categorical features were scaled with One-Hot-Encoding
+* continuous features scaled with MinMaxScaler
+* class-weight = balanced (because fails are only about 12%) 
+
+Now the ROC SCORE for the LogReg increases to .66, for the SVM to .65.  
+
+
+
 
 
 
