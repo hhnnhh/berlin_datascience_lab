@@ -120,12 +120,13 @@ In addition to PASS and FAIL, the data set also contains information about ABORT
 All variables were thoroughly explored before using. 
 
 Problems we determine from the EDA and point out to the client are:
-1. STATIONS: Some stations are biased, i.e. have a higher percentage of passing and failing than the average. 
-2. SOFTWARE: A software version is biased. 
+1. STATIONS: Some stations are biased, i.e. have a higher percentage of passing and failing than the average, e.g. station 422 and 430 have a higher ratio of fails compared to other stations (see fig "station" below). 
+2. SOFTWARE: Also software version 602 seems to have a is bias towards failing (see fig "software" below). 
 3. ODOMETER: Some mechanics in certain checking stations enter strange values such as 888.888, 88.888. and 8.888 into the odometer variable, also odometer values of 0, exactly 100.000 and above 400.000 miles seem odd. These values are treated as outliers and are removed. 
 4. REPEATED CHECKS: In the data set (with more than 370.000 cars entered), several thousand cars are checked more than once a day. As repairs within a day are rather unlikely, the data of these cars are considered as suspicious. 
 
 ![Biased stations](/figures/station_num.png)
+
 
 ![Biased software](/figures/software.png)
 
