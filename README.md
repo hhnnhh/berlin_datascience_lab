@@ -115,7 +115,7 @@ Repair features and OBD variables hardly contain data (mostly around 99% missing
 
 In addition to PASS and FAIL, the data set also contains information about ABORTED tests and also rare occurrences of the values "O" and "I" with unknown meaning. Information about aborted tests and other results were discarded in the current and future models. 
 
-![Emission results](/figures/results_piechart.png)
+![Emission results](/figures/overall_results.png)
 
 All variables were thoroughly explored before using. 
 
