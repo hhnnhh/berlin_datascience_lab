@@ -4,12 +4,12 @@
 
 A project initiated and mentored by [Noa Tamir](https://github.com/noatamir) and [Katharina Rasch](https://github.com/krasch), hosted by [Women in Machine Learning and Data Scienc (WIMLDS)](https://github.com/wimlds/).
 
-A detailed description of the "berlin-ds-lab", data and data cleaning initialisation can be found [here](https://github.com/wimlds/berlin-ds-lab).
+A detailed description of the "berlin-ds-lab", as well as the original data and a notebook for data cleaning  can be found [here](https://github.com/wimlds/berlin-ds-lab). Data cleaning will result in the supsample "sample.csv" which was used in this project. 
 
 Team members were 
 Hannah Bohle, [Marielle Dado](https://github.com/marielledado), [Caitlin Duncan](https://github.com/CaitDunc) and [Isabelle Nguyen](https://github.com/izzbizz/). 
 
-Goal of the project was to create a data science project based on open data, simulating the work of a freelance data science team.
+**Goal of the project** was to create a data science project based on open data, simulating the work of a freelance data science team.
 
 ## Project brief
 
@@ -19,9 +19,9 @@ Goal of the project was to create a data science project based on open data, sim
 
 _Predictive forecasting model:_
 
-We suggest to build a product that is able to predict emission results (passing and failing of car)
-1. based on the static car features that are provided (such as model, odometer, car age)
-1. based on the current results
+We suggest the client a product that is able to predict emission results (passing and failing of car)
+1. [MODEL 1] based on the static car features that are provided (such as model, odometer, car age), so that car owners know if their car is going to fail before going to the testing station
+1. [MODEL 2] based on the current results, so that the car owner can be informed about the likelihood of failing in a future test after having their car checked. 
 
 
 ## Sources:
@@ -59,24 +59,24 @@ The basic setup, such as requirements, baseline_model and data_prep are contribu
 pip install -r requirements.txt
 ```
 
-## EDA 
-The Exploratory Data Analysis was performed in Google Colab. 
-See "exploration/01_EDA/"
+## Exploratory Data Analysis
+The EDA was performed in Jupyter Notebooks and with notebooks in Google Colab. 
+All notebooks can be found under "exploration/01_EDA/"
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/googlecolab/colabtools/blob/master/notebooks/colab-github-demo.ipynb)
 
-Code is accessible via Github, but requires a Google Colab registration. 
+All notebooks are accessible via Github, however, Colab Notebooks will require a Google Colab registration. 
 
 ### Information about the data:
 
 Juypter Notebook: [Sanity Check Model](exploration/01_EDA/sanityCheck_dataQuality_reconstruct_overall-results.ipynb)
 
-I performed a sanity check of the data by modeling the results variable ("overall_results") using the testing variables with a Logistic Regression. 
+I performed a sanity check of the data by modeling the results variable ("overall_results") with the testing variables, using a Logistic Regression. 
 
-**Goal:** If the data is clean and of high quality, it should be possible to reconstruct the overall results (pass/fail of emission test) with the testing variables that are used for the decision.
+**Goal:** If the data is clean and of high quality, it should be possible to reconstruct the overall results (pass/fail of emission test) with the testing variables that are used for this decision.
 
-**Result of the sanity check:** Of the data set, only about 5% of the variables are used for the decision process. Nevertheless, after finding the important variables, the test results can completely be reconstructed, which speaks to a high data quality. 
-However, most of the variables are neither need for the decision process nor used during the test results, as a large percentage of the variables contain mostly NaN. 
+**Result of the sanity check:** Of the data set, only about 5% of the variables are used for the decision process. Nevertheless, after finding the important variables, the test results can completely be reconstructed, which speaks to a high data quality (ROC SCORE = 1). 
+Apparently, most of the variables are neither needed for the decision process or used for the test results nor collected, therefore a large percentage of the variables contain mostly NaN. 
 
 **Overview over the variables:** The data set contain 127 variables (= total of information provided = 100%). Content can be subdivided into different categories:
 
@@ -90,11 +90,46 @@ However, most of the variables are neither need for the decision process nor use
 
 Of the provided data, only a small proportion is actually used for the decision of the emission result (Pass/Fail). 
 
-In addition to PASS and FAIL, the data set also contains information about ABORTED tests and also rare occurrences of the values "O" and "I" with unknown meaning. 
+The variables that explain the results are the following: 
+* emissions: 'E_HIGH_CO_RESULT', 'E_HIGH_HC_RESULT', 'E_IDLE_CO_RESULT', 'E_IDLE_HC_RESULT', 'E_RESULT_STRING'
+* OBD: 'OBD_RESULT'
+* visual inspection: 'V_SMOKE1', 'V_SMOKE2', 'V_GASCAP', 'V_CAT', 'V_RESULT', 
+
+Repair features and OBD variables hardly contain data (mostly around 99% missing values). Only the OBD_results variable contains data (15% missing data) and seems important for the test result.
+
+In addition to PASS and FAIL, the data set also contains information about ABORTED tests and also rare occurrences of the values "O" and "I" with unknown meaning. Information about aborted tests and other results were discarded in the current and future models. 
 
 ![Emission results](/figures/results_piechart.png)
 
+All variables were thoroughly explored before using. 
+
+Problems we determine from the EDA and point out to the client are:
+1. Some stations are biased, i.e. have a higher percentage of passing and failing than the average. 
+2. A software version is biased. 
+3. Some mechanics in certain checking stations enter strange values such as 888.888, 88.888. and 8.888 into the odometer variable, also odometer values of 0, exactly 100.000 and above 400.000 miles seem odd. These values are treated as outliers and are removed. 
+4. In the data set (with more than 370.000 cars entered), several thousand cars are checked more than once a day. As repairs within a day are rather unlikely, the data of these cars are considered as suspicious. 
+
+
+
+
+
+
+
+We considered five car features as crucial. These are 
+
+1. Odometer
+2.  
+
+## Baseline Model
+
+The baseline model was based on a selection of five car features that we expected to explain test results without actually touching the tests.
+
+
+
 ## Modeling
+
+Model 1: 
+"Modeling emission results based on static car features"
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
