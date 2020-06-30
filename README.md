@@ -38,7 +38,7 @@ We suggest the client a product that is able to predict emission results (passin
 1. based on the static car features that are provided (such as model, odometer, car age), so that car owners know if their car is going to fail before going to the testing station
 
 [MODEL 2] (future, not implemented within project timeframe)
-1. based on the current results, so that the car owner can be informed about the likelihood of failing in a future test after having their car checked. 
+2. based on the current results, so that the car owner can be informed about the likelihood of failing in a future test after having their car checked. 
 
 ## Sources:
 
@@ -47,7 +47,7 @@ We suggest the client a product that is able to predict emission results (passin
 
 
 ## Installation
-The basic setup such as requirements.txt, baseline_model.py for Logistic Regression and data_prep are contributions by [Marielle Dado](https://github.com/marielledado), extensions for Support Vector Machine, Random Forest Classifier, hyperparameter tuning by Hannah Bohle.
+The basic setup such as requirements.txt, baseline_model.py for Logistic Regression and data_prep are contributions by [Marielle Dado](https://github.com/marielledado), extensions in basic_model.py for Support Vector Machine, Random Forest Classifier and hyperparameter tuning by Hannah Bohle.
 
 1. Clone or download this repo
 
@@ -91,19 +91,20 @@ I performed a sanity check of the data by reverse modeling the results variable 
 
 **Goal:** If the data is clean and of high quality, it should be possible to reconstruct the overall results (pass/fail of emission test) with the testing variables that are used for this decision.
 
-**Result of the sanity check:** Of the data set, it seems like only about 5% of the variables are used for the decision process. Nevertheless, after finding the important variables, the test results can completely be reconstructed, which speaks to a high data quality (ROC AUC = 1). 
-It seems like most of the variables are neither needed for the decision process or used for the test results nor are they collected, as a large percentage of the variables contain mostly NaN. 
+**Result of the sanity check:** Of the data set, it seems like only about 5% of the variables (or less) are used for the decision process. Nevertheless, after finding the important variables, the test results can completely be reconstructed, which speaks to a high data quality (ROC AUC = 1). 
+It seems like most of the variables are neither needed for the decision process or used for the test results nor are they collected, as a large percentage of the variables doesn't contain any information (< 95% NaN). 
 
-**Overview over the variables:** The data set contain 127 variables (= total of information provided = 100%). Content can be subdivided into different categories:
+**Overview over the variables:** The data set contains 127 variables (= total of information provided = 100%). Content can be subdivided into different categories:
 
 |  | Total of information provided 127 (= 100%):   | Actually used for result decision  |
 |---|---|---|
 | Information about car and testing procedure (model, odometer.., station)  | 50 (39%)  |  -- |
-| Emissions (HC, CO, CO2, O2) | 45 (35%) | 5 (4%) |
+| Emissions (HC, CO, CO2, O2) | 45 (35%) | 5 (4%)  |
 |On-Board Diagnosis Tools (OBD) | 18 (14%) | 1 (1%) |
 |Repair features  | 10 (8%) | --  |
 | Visual Inspection (e.g. smoke)  | 5 (4%)  | 5 (4%)  |
-
+|---|---|---|
+| **TOTAL**                            | **= 100%**   | **= 9%** |
 Of the provided data, only a small proportion is actually used for the decision of the emission result (Pass/Fail). 
 
 The variables that are presumably used to derive the result variable are the following: 
@@ -206,13 +207,6 @@ To improve the [extended model](exploration/03_extended_model/improved_baseline_
 * "VEHICLE_TYPE", "FUEL_TYPE", "GVW_TYPE" 
 
 Summary: A Logistic Regression with "ODOMETER", "CAR_AGE", "MODEL" "ENGINE-Size" receives the best ROC SCORE with .74 
-
-
-
-
-
-
-
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
