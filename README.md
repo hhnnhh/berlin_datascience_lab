@@ -6,6 +6,7 @@
 1. Project Ideation
 1. Exploratory Data Analysis
    1. Reverse Modeling of Test Result
+   1. biased or erroneous data entries
 1. Baseline Model
    1. improved Baseline Model
 1. Extended Model
@@ -106,26 +107,28 @@ It seems like most of the variables are neither needed for the decision process 
 |---|---|---|
 | **TOTAL**                            | **= 100%**   | **= 9%** |
 
-Of the provided data, only a small proportion is actually used for the decision of the emission result (Pass/Fail). 
+Of the provided data, only a small proportion of 9% is actually used for the decision of the emission result (Pass/Fail), and not all of them might be even necessary.  
 
 The variables that are presumably used to derive the result variable are the following: 
 * emissions: 'E_HIGH_CO_RESULT', 'E_HIGH_HC_RESULT', 'E_IDLE_CO_RESULT', 'E_IDLE_HC_RESULT', 'E_RESULT_STRING'
 * OBD: 'OBD_RESULT'
 * visual inspection: 'V_SMOKE1', 'V_SMOKE2', 'V_GASCAP', 'V_CAT', 'V_RESULT', 
-Not all of them might be necessary. 
+
 
 Repair features and OBD variables hardly contain data (mostly around 99% missing values). Only the OBD_results variable contains data (15% missing data) and seems important for the test result.
 
-In addition to PASS and FAIL, the data set also contains information about ABORTED tests and also rare occurrences of the values "O" and "I" with unknown meaning. In the current and in future models only Pass/Fail was used, other results were discarded. 
+In addition to PASS and FAIL, the data set also contains information about ABORTED tests and also rare occurrences of the values "O" and "I" with unknown meaning. In the current and in future models only Pass/Fail results were used, all other results were discarded. 
 
 ![Emission results](/figures/overall_results.png)
 
 All variables were thoroughly explored before using. 
 
+#### erroneous, flawed, biased data
+
 Problems we determine from the EDA and point out to the client are:
 1. STATIONS: Some stations are biased, i.e. have a higher percentage of passing and failing than the average, e.g. station 422 and 430 have a higher ratio of fails compared to other stations (see fig "station" below). 
 2. SOFTWARE: Also software version 602 seems to have a bias towards failing (see fig "software" below). 
-3. ODOMETER: Some mechanics in certain checking stations enter strange values such as 888.888, 88.888. and 8.888 into the odometer variable, also odometer values of 0, exactly 100.000 and above 400.000 miles seem odd. These values are treated as outliers and are removed. 
+3. ODOMETER: Some mechanics in certain checking stations seem to enter strange values such as 888.888, 88.888. and 8.888 into the odometer variable, also odometer values of 0, exactly 100.000 and above 400.000 miles seem odd. These values are treated as outliers and are removed. 
 4. REPEATED CHECKS: In the data set (with more than 370.000 cars entered), several thousand cars are checked more than once a day. As repairs within a day are rather unlikely, the data of these cars are considered as suspicious. 
 
 ![Biased stations](/figures/station_num.png)
