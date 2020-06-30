@@ -136,14 +136,18 @@ Problems we determine from the EDA and point out to the client are:
 
 ![Biased software](/figures/software.png)
 
-Information about the biased [stations and software](exploration/01_EDA/EDA_important_car_features_biased_stations_software_HB.ipynb), as well as engine size, model, cylinder, trans type and dual exhaust. 
+[Biased stations and software](exploration/01_EDA/EDA_important_car_features_biased_stations_software_HB.ipynb), as well as engine size, car model, cylinder, transmission type and dual exhaust were explored to gain information about their potential value for the predictive model. 
 
-With [scatterplots](exploration/01_EDA/EDA_emissions_scatterplot_HB.ipynb) I've been digging deeper into 'E_IDLE_CO2' and 'E_HIGH_CO2', and by removing outlier, I was able to see their distribution. 
+With [scatterplots](exploration/01_EDA/EDA_emissions_scatterplot_HB.ipynb) I've been digging deeper into 'E_IDLE_CO2' and 'E_HIGH_CO2'. It was necessary to remove some extreme outliers, to see their actual distribution and correlation. 
 
-[Correlations](exploration/01_EDA/EDA_correlations_HB.ipynb) were used to explore the linear connections between car feature and result variable. 
+[Correlations](exploration/01_EDA/EDA_correlations_HB.ipynb) were used to explore the connection between various car features and the result variable. For the different types of variables different correlations were used (Pearson, pointbiserial, Cramers V), as described [here](https://medium.com/@outside2SDs/an-overview-of-correlation-measures-between-categorical-and-continuous-variables-4c7f85610365).
 
+## Predictive Model 
 
-## Baseline Model
+### Baseline Model
+
+Goal of the baseline model was to predict emission results (passing and failing of car)
+based on *a small selection of static car features* that are provided, to establish a baseline.
 
 The [baseline model](exploration/02_baseline_model/vanilla_baseline_4_static_car_features.ipynb) (colab) was based on a selection of five car features that we expected to explain test results without actually touching the information of the test itself.
 
@@ -155,39 +159,29 @@ After exploring the data we considered these five car features as crucial:
 1. FUEL TYPE
 1. GVW_TYPE
 
-Even after cleaning the variables, and modeling only passes and fails (leaving aborts out), and after training four different vanilla models (naive bayes, logistic regression, support vector machines (SVM) and random forest), "out of the box" all models perform extremely bad, with a ROC Score of ~.5, which is equivalent to chance level. 
+However, even after cleaning the variables (removing outliers and odd values), and by modeling only passes and fails (discarding aborts) and after training four different vanilla models (naive bayes, logistic regression, support vector machines (SVM) and random forest), "out of the box" all models perform extremely bad, with a ROC score of ~.5, equivalent to chance level. 
 
-### extended baseline model
+### extended Baseline Model
 
 For the [second baseline model](exploration/02_baseline_model/second_baseline_model_cleaned_scaled.ipynb), the following improvements were implemented: 
 * categorical features were scaled with One-Hot-Encoding
 * continuous features scaled with MinMaxScaler
 * coping with imbalanced target value (~12% FAIL): 
   * for LogReg: class-weight = balanced 
-  * for SVM: downsampling of PASS values
+  * for SVM: downsampling of PASS result values
 
-Now the ROC SCORE for the LogReg increases to .66, for the SVM to .65.  
-
-
+After implementing the changes, the ROC score of the LogReg increases to .66, of the SVM to .65.  
 
 
-
-
-
-
-
-
-
-
-
-## Modeling
+### improved Model
 
 Model 1: 
 "Modeling emission results based on static car features"
 
-For the last model, we improved the following features: 
+For the actual predictive model, we implemented a [data preparation toolbox](emissionscheck_alb/data_prep.py) and a [preprocessing pipeline](emissionscheck_alb/baseline_model.py) for Logistic Regression (by Marielle Dado) which was subsequently extended by Random Forest and hyperparameter tuning options (by Hannah Bohle).
  
- Setting up a pipeline (MD) with
+In particular, data was preprocessed with the following features: 
+ 
    * categorical features were scaled with One-Hot-Encoding
   * continuous features scaled with MinMaxScaler
 * coping with imbalanced target value (~12% FAIL): 
@@ -198,19 +192,21 @@ Interestingly, a LogReg with the following features:
 * [categorical:] "VEHICLE_TYPE", "FUEL_TYPE", "GVW_TYPE", 
 * [continuous:] "ODOMETER", "CAR_AGE"
 
-receives about the same ROC SCORE as a LogReg with * "ODOMETER", "CAR_AGE" only 
+receives about the same ROC SCORE as a LogReg with "ODOMETER", "CAR_AGE" only 
 
 Preliminary result: ROC = .71
 
-### Beating the baseline with feature selection 
+### Feature selection 
 
-To improve the [extended model](exploration/03_extended_model/improved_baseline_model_extended_HB.ipynb) by Hannah Bohle, I used feature selection.
+To improve the [extended model](exploration/03_extended_model/improved_baseline_model_extended_HB.ipynb)  feature selection was used (by Hannah Bohle).
 
-* substituting "vehicle type" by "model" --> + Roc .73
-* plus "engine_size" --> + Roc .74
-* "VEHICLE_TYPE", "FUEL_TYPE", "GVW_TYPE" 
+Baseline model features were: 
+ODOMETER / MODEL AGE / VEHICLE TYPE / FUEL TYPE / GVW_TYPE (ROC score = .70)
 
-Summary: A Logistic Regression with "ODOMETER", "CAR_AGE", "MODEL" "ENGINE-Size" receives the best ROC SCORE with .74 
+* substituting "vehicle type" by "model" --> ROC: .73
+* plus "engine_size" --> ROC: .74
+
+*Summary:* A Logistic Regression with "ODOMETER", "CAR_AGE", "MODEL" "ENGINE-SIZE" receives the best ROC Score with .74 
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
