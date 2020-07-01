@@ -246,7 +246,7 @@ On the downside, the confidence of the predictions is still not high, as about 6
 
 **Open tasks:** try beating the current score by either hyperparameter tuning and/or by using a more powerful model. 
 
-Also "Predictive [MODEL 2]" could unfortunately not be implemented within the time frame of the current project. 
+Also the planned [MODEL 2] could unfortunately not be implemented within the time frame of the current project. 
 
 
 
