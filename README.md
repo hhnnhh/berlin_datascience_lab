@@ -38,7 +38,7 @@ We suggest the client a product that is able to predict emission results (passin
 
 [MODEL 2] (future, not implemented within project timeframe)
 
-2. based on the current results, so that the car owner can be informed about the likelihood of failing in a future test after having their car checked. 
+2. based on the current results, so that the car owner can be informed about the likelihood of failing in a future test *after having their car checked*, by using the cars testing variables. 
 
 ## Sources:
 
@@ -204,25 +204,28 @@ For the model, we implemented a [data preparation toolbox](emissionscheck_alb/da
  
 In particular, data was preprocessed with the following features: 
  
-* Feature Cleaning: 
-  * cars with odd ODOMETER values (0,888.888,88.888,8.888,100.000 *and above 400.000*) were removed
-* Preprocessing Pipeline:
+* Data Preparation: 
+  * select only Pass/Fail results
+  * calculate car age from model year
+  * encode P = 0, F = 1
   * continuous features: **MinMaxScaler**
   * categorical features: **One-Hot-Encoding**
+  * cars with odd ODOMETER values (0,888.888,88.888,8.888,100.000 *and above 400.000*) were removed later
 * coping with imbalanced target value (~12% FAIL): 
   * for LogReg: "class-weight = balanced"
+* preprocessing performed with pipeline
 
-Interestingly, a LogReg with the following features: 
+With the following features: 
 * [categorical:] "VEHICLE_TYPE", "FUEL_TYPE", "GVW_TYPE", 
 * [continuous:] "ODOMETER", "CAR_AGE"
 
-receives about the same ROC SCORE as a LogReg with "ODOMETER", "CAR_AGE" only 
+a LogReg again receives a better result than the baseline model, but about the same ROC SCORE as a LogReg with "ODOMETER", "CAR_AGE" only.
 
 Preliminary result: ROC = .71
 
 ### Feature selection 
 
-To improve the [extended model](exploration/03_extended_model/improved_baseline_model_extended_HB.ipynb)  feature selection was used (by Hannah Bohle).
+To improve the [Model 1](exploration/03_extended_model/improved_baseline_model_extended_HB.ipynb)  feature selection was used (by Hannah Bohle).
 
 Baseline model features were: 
 ODOMETER / MODEL AGE / VEHICLE TYPE / FUEL TYPE / GVW_TYPE (ROC score = .70)
@@ -231,6 +234,21 @@ ODOMETER / MODEL AGE / VEHICLE TYPE / FUEL TYPE / GVW_TYPE (ROC score = .70)
 * plus "engine_size" --> ROC: .74
 
 *Summary:* A Logistic Regression with "ODOMETER", "CAR_AGE", "MODEL" "ENGINE-SIZE" receives the best ROC Score with .74 
+
+## Product vision
+
+We suggest to implement a web application were car owners can enter "ODOMETER", "CAR_AGE", "MODEL" and probably "ENGINE-SIZE" to get an impression if their car is likely to pass or fail their emissions test. 
+
+The application will be easy to implement and might make emission testing more efficient. 
+
+On the downside, the confidence of the predictions is still not high, as about 67% of the cars will in fact be classified correctly, whereas 30% of the cars will be announced as "likely to pass", while they'll actually be failing ("false negative"), and 3% of the cars will be announced as "likely to fail", while they'll be passing ("false positive"). 
+
+**Open tasks:**
+Next step: try beating the current score by either hyperparameter tuning and/or by using a more powerful model. 
+
+Also "Predictive Model 2" could unfortunately not be implemented within the time frame of the current project. 
+
+
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
