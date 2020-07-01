@@ -242,7 +242,7 @@ We suggest to implement a web application were car owners can enter "ODOMETER", 
 
 The application will be easy to implement and might make emission testing more efficient. 
 
-On the downside, the confidence of the predictions is still not high, as about 67% of the cars will in fact be classified correctly, whereas 30% of the cars will be announced as "likely to pass", while they'll actually be failing ("false negative"), and 3% of the cars will be announced as "likely to fail", while they'll be passing ("false positive"). 
+On the downside, the confidence of the predictions is still not high, as about 67% of the cars will in fact be classified correctly, whereas 30% of the cars will be announced as "likely to pass", while they'll actually be failing ("false positive"), and 3% of the cars will be announced as "likely to fail", while they'll be passing ("false negative"). 
 
 **Open tasks:** try beating the current score by either hyperparameter tuning and/or by using a more powerful model. 
 
