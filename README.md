@@ -10,6 +10,7 @@
 1. Baseline Model
    1. improved Baseline Model
 1. Extended Model
+1. Product Vision
 
 
 ## Project introduction
@@ -243,10 +244,9 @@ The application will be easy to implement and might make emission testing more e
 
 On the downside, the confidence of the predictions is still not high, as about 67% of the cars will in fact be classified correctly, whereas 30% of the cars will be announced as "likely to pass", while they'll actually be failing ("false negative"), and 3% of the cars will be announced as "likely to fail", while they'll be passing ("false positive"). 
 
-**Open tasks:**
-Next step: try beating the current score by either hyperparameter tuning and/or by using a more powerful model. 
+**Open tasks:** try beating the current score by either hyperparameter tuning and/or by using a more powerful model. 
 
-Also "Predictive Model 2" could unfortunately not be implemented within the time frame of the current project. 
+Also "Predictive [MODEL 2]" could unfortunately not be implemented within the time frame of the current project. 
 
 
 
