@@ -245,7 +245,7 @@ We suggest the client to implement a web application were car owners can enter "
 
 The application will be easy to implement and maintain and might make emission testing more efficient. 
 
-On the downside, the confidence of the predictions is still not high, even if 67% of the cars will in fact be classified correctly, in the current model 30% of the cars will be announced as "likely to pass", while they'll actually be failing ("false positive"), and 3% of the cars will be announced as "likely to fail", while they'll be passing ("false negative"). 
+On the downside, the confidence of the predictions is still not high, even if 67% of the cars will in fact be classified correctly. That is, in the current model 30% of the cars will be announced as "likely to pass", while they'll actually be failing ("false positive"), and 3% of the cars will be announced as "likely to fail", while they'll be passing the test ("false negative"). 
 
 **Open tasks:** try beating the current score by either hyperparameter tuning and/or by using a more powerful model. 
 
