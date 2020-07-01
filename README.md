@@ -12,8 +12,6 @@
 1. Extended Model
 
 
-
-
 ## Project introduction
 
 A project initiated and mentored by [Noa Tamir](https://github.com/noatamir) and [Katharina Rasch](https://github.com/krasch), hosted by [Women in Machine Learning and Data Science (WIMLDS)](https://github.com/wimlds/).
@@ -39,6 +37,7 @@ We suggest the client a product that is able to predict emission results (passin
 1. based on the static car features that are provided (such as model, odometer, car age), so that car owners know if their car is going to fail before going to the testing station
 
 [MODEL 2] (future, not implemented within project timeframe)
+
 2. based on the current results, so that the car owner can be informed about the likelihood of failing in a future test after having their car checked. 
 
 ## Sources:
@@ -48,7 +47,7 @@ We suggest the client a product that is able to predict emission results (passin
 
 
 ## Installation
-The basic setup such as requirements.txt, baseline_model.py for Logistic Regression and data_prep are contributions by [Marielle Dado](https://github.com/marielledado), extensions in basic_model.py for Support Vector Machine, Random Forest Classifier and hyperparameter tuning by Hannah Bohle.
+The basic setup such as requirements.txt, [data preparation]((emissionscheck_alb/data_prep.py)) and [basic model setup](emissionscheck_alb/baseline_model.py) setup with preprocessing pipeline for Logistic Regression and SVC are contributions by [Marielle Dado](https://github.com/marielledado), extensions in model setup for Random Forest Classifier and hyperparameter tuning options by Hannah Bohle.
 
 1. Clone or download this repo
 
@@ -107,9 +106,10 @@ It seems like most of the variables are neither needed for the decision process 
 |---|---|---|
 | **TOTAL**                            | **= 100%**   | **= 9%** |
 
-Of the provided data, only a small proportion of 9% is actually used for the decision of the emission result (Pass/Fail), and not all of them might be even necessary.  
+Of the provided data, only a small proportion of 9% is actually used for the decision of the emission result (Pass/Fail), and not all of them might even be necessary.  
 
-The variables that are presumably used to derive the result variable are the following: 
+The variables that were used in the reverse model to explain the test results variable are the following: 
+
 * emissions: 'E_HIGH_CO_RESULT', 'E_HIGH_HC_RESULT', 'E_IDLE_CO_RESULT', 'E_IDLE_HC_RESULT', 'E_RESULT_STRING'
 * OBD: 'OBD_RESULT'
 * visual inspection: 'V_SMOKE1', 'V_SMOKE2', 'V_GASCAP', 'V_CAT', 'V_RESULT', 
@@ -117,7 +117,7 @@ The variables that are presumably used to derive the result variable are the fol
 
 Repair features and OBD variables hardly contain data (mostly around 99% missing values). Only the OBD_results variable contains data (15% missing data) and seems important for the test result.
 
-In addition to PASS and FAIL, the data set also contains information about ABORTED tests and also rare occurrences of the values "O" and "I" with unknown meaning. In the current and in future models only Pass/Fail results were used, all other results were discarded. 
+In addition to PASS and FAIL, the results variable also contains information about ABORTED tests and also rare occurrences of the values "O" and "I" with unknown meaning. In the current and in future models only Pass/Fail results were used, information regarding all other results was dropped. 
 
 ![Emission results](/figures/overall_results.png)
 
@@ -126,10 +126,10 @@ All variables were thoroughly explored before using.
 #### erroneous, flawed, biased data
 
 Problems we determine from the EDA and point out to the client are:
-1. STATIONS: Some stations are biased, i.e. have a higher percentage of passing and failing than the average, e.g. station 422 and 430 have a higher ratio of fails compared to other stations (see fig "station" below). 
-2. SOFTWARE: Also software version 602 seems to have a bias towards failing (see fig "software" below). 
-3. ODOMETER: Some mechanics in certain checking stations seem to enter strange values such as 888.888, 88.888. and 8.888 into the odometer variable, also odometer values of 0, exactly 100.000 and above 400.000 miles seem odd. These values are treated as outliers and are removed. 
-4. REPEATED CHECKS: In the data set (with more than 370.000 cars entered), several thousand cars are checked more than once a day. As repairs within a day are rather unlikely, the data of these cars are considered as suspicious. 
+1. STATIONS: Some stations are biased, i.e. have a higher percentage of passing and failing than the average, e.g. station 422 and 430 have a higher ratio of fails compared to other stations (see Fig. "station"). 
+2. SOFTWARE: Also software version 602 seems to have a bias towards failing (see Fig. "software"). 
+3. ODOMETER: Some mechanics in certain checking stations seem to enter strange values such as 888.888, 88.888. and 8.888 into the odometer variable, also odometer values of 0, exactly 100.000 and above 400.000 miles seem odd. Cars with these odometer values are treated as outliers and are removed. 
+4. REPEATED CHECKS: In the data set (with more than 370.000 cars entered), several thousand cars are checked more than once a day. As repairs within a day are rather unlikely, the data of these cars are considered as suspicious. (Info by [CD](https://github.com/CaitDunc))
 
 ![Biased stations](/figures/station_num.png)
 
@@ -149,9 +149,9 @@ With [scatterplots](exploration/01_EDA/EDA_emissions_scatterplot_HB.ipynb) I've 
 Goal of the baseline model was to predict emission results (passing and failing of car)
 based on *a small selection of static car features* that are provided, to establish a baseline.
 
-The [baseline model](exploration/02_baseline_model/vanilla_baseline_4_static_car_features.ipynb) (colab) was based on a selection of five car features that we expected to explain test results without actually touching the information of the test itself.
+The [baseline model](exploration/02_baseline_model/vanilla_baseline_4_static_car_features.ipynb) (colab) was based on a selection of five car features that we expected to explain test results without actually touching the information of the test (e.g. emissions, visual inspection..) itself.
 
-After exploring the data we considered these five car features as crucial:
+After exploring the data we considered the following five car features a good starting point:
 
 1. ODOMETER
 1. MODEL YEAR - converted to age
@@ -159,34 +159,58 @@ After exploring the data we considered these five car features as crucial:
 1. FUEL TYPE
 1. GVW_TYPE
 
-However, even after cleaning the variables (removing outliers and odd values), and by modeling only passes and fails (discarding aborts) and after training four different vanilla models (naive bayes, logistic regression, support vector machines (SVM) and random forest), "out of the box" all models perform extremely bad, with a ROC score of ~.5, equivalent to chance level. 
+However, even after cleaning the variables (removing outliers and odd values), and by modeling only passes and fails (discarding aborts) and after training four different vanilla models (naive bayes, logistic regression, support vector machines (SVM) and random forest), "out of the box" all models perform extremely bad, with a ROC score of ~.5, which is equivalent to chance level. 
 
 ### extended Baseline Model
 
 For the [second baseline model](exploration/02_baseline_model/second_baseline_model_cleaned_scaled.ipynb), the following improvements were implemented: 
-* categorical features were scaled with One-Hot-Encoding
-* continuous features scaled with MinMaxScaler
+
+* Feature Engineering: 
+  * cars with odd ODOMETER values (0,888.888,88.888,8.888,100.000) were removed
+  * FUEL_TYPE reduced from 6 to 3 categories (= Gasoline, Diesel, Other) (= "FUEL_REDUCED)
 * coping with imbalanced target value (~12% FAIL): 
-  * for LogReg: class-weight = balanced 
-  * for SVM: downsampling of PASS result values
+  * for LogReg: "class-weight = balanced"
+  * for SVM: downsampling the frequency of PASS result values
+  * continuous features: ODOMETER, CAR AGE 
+  * categorical features: FUEL_REDUCED,VEHICLE_TYPE, GVW_TYPE
 
-After implementing the changes, the ROC score of the LogReg increases to .66, of the SVM to .65.  
+A) 
+   1. *unscaled* continuous features (ODOMETER, AGE), but
+   1. *one-hot-encoded* categorical features
+   
+=> ROC score = .5 
 
+B)
+   1. *scaled* continuous features (ODOMETER, AGE with MinMaxScaler)
+   1. *one-hot-encoded* categorical features
+   
+=> ROC score of the LogReg = .66, of the SVM = .65.
 
-### improved Model
+   1. *scaled* continuous features (ODOMETER, AGE with MinMaxScaler)
+   1. no categorical features used
+   
+=> ROC score of the LogReg = .66
 
-Model 1: 
-"Modeling emission results based on static car features"
+**Summary:** Feature scaling of continuous features (Odometer, car age) improves ROC score. 
+Odometer and car age seem crucial. Model type doesn't make a difference. We decide to stick to LogReg for now. 
 
-For the actual predictive model, we implemented a [data preparation toolbox](emissionscheck_alb/data_prep.py) and a [preprocessing pipeline](emissionscheck_alb/baseline_model.py) for Logistic Regression (by Marielle Dado) which was subsequently extended by Random Forest and hyperparameter tuning options (by Hannah Bohle).
+### Model 1
+
+Model 1: "Modeling emission results based on static car features"
+
+To "beat the baseline", we decide against hyperparameter tuning, for feature selection. 
+
+For the model, we implemented a [data preparation toolbox](emissionscheck_alb/data_prep.py) and a [preprocessing pipeline](emissionscheck_alb/baseline_model.py) for Logistic Regression (by Marielle Dado) which was subsequently extended by Random Forest and hyperparameter tuning options (by Hannah Bohle).
  
 In particular, data was preprocessed with the following features: 
  
-   * categorical features were scaled with One-Hot-Encoding
-  * continuous features scaled with MinMaxScaler
+* Feature Cleaning: 
+  * cars with odd ODOMETER values (0,888.888,88.888,8.888,100.000 *and above 400.000*) were removed
+* Preprocessing Pipeline:
+  * continuous features: **MinMaxScaler**
+  * categorical features: **One-Hot-Encoding**
 * coping with imbalanced target value (~12% FAIL): 
-  * for LogReg: class-weight = balanced 
-* keeping only pass/fail results (no aborts or else)
+  * for LogReg: "class-weight = balanced"
 
 Interestingly, a LogReg with the following features: 
 * [categorical:] "VEHICLE_TYPE", "FUEL_TYPE", "GVW_TYPE", 
