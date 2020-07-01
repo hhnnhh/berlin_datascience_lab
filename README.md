@@ -173,8 +173,8 @@ For the [second baseline model](exploration/02_baseline_model/second_baseline_mo
 * coping with imbalanced target value (~12% FAIL): 
   * for LogReg: "class-weight = balanced"
   * for SVM: downsampling the frequency of PASS result values
-  * continuous features: ODOMETER, CAR AGE 
-  * categorical features: FUEL_REDUCED,VEHICLE_TYPE, GVW_TYPE
+* continuous features: ODOMETER, CAR AGE 
+* categorical features: FUEL_REDUCED,VEHICLE_TYPE, GVW_TYPE
 
 A) 
    1. *unscaled* continuous features (ODOMETER, AGE), but
@@ -249,7 +249,7 @@ On the downside, the confidence of the predictions is still not high, even if 67
 
 **Open tasks:** try beating the current score by either hyperparameter tuning and/or by using a more powerful model. 
 
-Also the planned [MODEL 2] could unfortunately not be implemented within the time frame of the current project. 
+The planned [MODEL 2] could unfortunately not be implemented within the time frame of the current project. Preliminary investigations such as the "quality check model" as well as some attempts during [feature selection](exploration/03_extended_model/improved_baseline_model_extended_HB.ipynb) give rise to the expectation that future predictions with the actual testing variables will be easier to implement and more powerful, because they are closely related to the results variable. However, the assumption still has to be checked. 
 
 
 
