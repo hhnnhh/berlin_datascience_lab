@@ -7,9 +7,10 @@
 1. Exploratory Data Analysis
    1. Reverse Modeling of Test Result
    1. biased or erroneous data entries
-1. Baseline Model
+1. Predictive Model
+   1. Baseline Model
    1. improved Baseline Model
-1. Extended Model
+   1. Final Model
 1. Product Vision
 
 
@@ -17,7 +18,7 @@
 
 A project initiated and mentored by [Noa Tamir](https://github.com/noatamir) and [Katharina Rasch](https://github.com/krasch), hosted by [Women in Machine Learning and Data Science (WIMLDS)](https://github.com/wimlds/).
 
-A detailed description of the "berlin-ds-lab", as well as the original data and a notebook for data cleaning  can be found [here](https://github.com/wimlds/berlin-ds-lab). Data cleaning will result in the subsample "sample.csv" which was used in this project. 
+A detailed description of the "berlin-ds-lab", as well as the original data and a notebook for data cleaning  can be found [here](https://github.com/wimlds/berlin-ds-lab). Data cleaning will result in the subsample "sample.csv", which was used in this project. 
 
 Team members were 
 Hannah Bohle (HB), [Marielle Dado](https://github.com/marielledado) (MD), [Caitlin Duncan](https://github.com/CaitDunc) (CD) and [Isabelle Nguyen](https://github.com/izzbizz/) (IN). Authorship of notebooks is marked with initials. 
@@ -162,7 +163,7 @@ After exploring the data we considered the following five car features a good st
 
 However, even after cleaning the variables (removing outliers and odd values), and by modeling only passes and fails (discarding aborts) and after training four different vanilla models (naive bayes, logistic regression, support vector machines (SVM) and random forest), "out of the box" all models perform extremely bad, with a ROC score of ~.5, which is equivalent to chance level. 
 
-### extended Baseline Model
+### improved Baseline Model
 
 For the [second baseline model](exploration/02_baseline_model/second_baseline_model_cleaned_scaled.ipynb), the following improvements were implemented: 
 
@@ -195,13 +196,13 @@ B)
 **Summary:** Feature scaling of continuous features (Odometer, car age) improves ROC score. 
 Odometer and car age seem crucial. Model type doesn't make a difference. We decide to stick to LogReg for now. 
 
-### Model 1
+### Final Model
 
 Model 1: "Modeling emission results based on static car features"
 
-To "beat the baseline", we decide against hyperparameter tuning, for feature selection. 
+To "beat the baseline", we decide to use feature selection and not hyperparameter tuning, for now. 
 
-For the model, we implemented a [data preparation toolbox](emissionscheck_alb/data_prep.py) and a [preprocessing pipeline](emissionscheck_alb/baseline_model.py) for Logistic Regression (by Marielle Dado) which was subsequently extended by Random Forest and hyperparameter tuning options (by Hannah Bohle).
+For the final model, we implemented a [data preparation toolbox](emissionscheck_alb/data_prep.py) and a [preprocessing pipeline](emissionscheck_alb/baseline_model.py) for Logistic Regression (by Marielle Dado) which was subsequently extended by Random Forest and hyperparameter tuning options (by Hannah Bohle).
  
 In particular, data was preprocessed with the following features: 
  
@@ -224,6 +225,8 @@ a LogReg again receives a better result than the baseline model, but about the s
 
 Preliminary result: ROC = .71
 
+A Random Forest Classifier resulted in a similar ROC score. 
+
 ### Feature selection 
 
 To improve the [Model 1](exploration/03_extended_model/improved_baseline_model_extended_HB.ipynb)  feature selection was used (by Hannah Bohle).
@@ -232,17 +235,17 @@ Baseline model features were:
 ODOMETER / MODEL AGE / VEHICLE TYPE / FUEL TYPE / GVW_TYPE (ROC score = .70)
 
 * substituting "vehicle type" by "model" --> ROC: .73
-* plus "engine_size" --> ROC: .74
+* adding "engine_size" --> ROC: .74
 
 *Summary:* A Logistic Regression with "ODOMETER", "CAR_AGE", "MODEL" "ENGINE-SIZE" receives the best ROC Score with .74 
 
 ## Product vision
 
-We suggest to implement a web application were car owners can enter "ODOMETER", "CAR_AGE", "MODEL" and probably "ENGINE-SIZE" to get an impression if their car is likely to pass or fail their emissions test. 
+We suggest the client to implement a web application were car owners can enter "ODOMETER", "CAR_AGE", "MODEL" and probably "ENGINE-SIZE" to get an impression if their car is likely to pass or fail their emissions test. 
 
-The application will be easy to implement and might make emission testing more efficient. 
+The application will be easy to implement and maintain and might make emission testing more efficient. 
 
-On the downside, the confidence of the predictions is still not high, as about 67% of the cars will in fact be classified correctly, whereas 30% of the cars will be announced as "likely to pass", while they'll actually be failing ("false positive"), and 3% of the cars will be announced as "likely to fail", while they'll be passing ("false negative"). 
+On the downside, the confidence of the predictions is still not high, even if 67% of the cars will in fact be classified correctly, in the current model 30% of the cars will be announced as "likely to pass", while they'll actually be failing ("false positive"), and 3% of the cars will be announced as "likely to fail", while they'll be passing ("false negative"). 
 
 **Open tasks:** try beating the current score by either hyperparameter tuning and/or by using a more powerful model. 
 
